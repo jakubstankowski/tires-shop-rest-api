@@ -2,7 +2,8 @@
 {
     public class Tyres: BasicModel
     {
-        public string Brand { get; set; } = string.Empty;
+
+        public TyreMaker TyreMaker { get; set; }
 
         public string Model { get; set; } = string.Empty;
 
@@ -20,10 +21,10 @@
 
         public TyresType TyresType { get; set; }
 
-        public Tyres(string brand, string model, decimal price, int productionYear,
+        public Tyres(TyreMaker tyreMaker, string model, decimal price, int productionYear,
             int sizeWidth, int sizeProfile, int sizeDiameter, TyresType tyresType)
         {
-            Brand = brand;
+            TyreMaker = tyreMaker;
             Model = model;
             Price = price;
             ProductionYear = productionYear;

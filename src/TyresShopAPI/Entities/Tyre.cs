@@ -14,20 +14,9 @@ namespace TyresShopAPI.Models
         public int SizeDiameter { get; set; }
         public TyreType TyreType { get; set; }
 
-        public Guid ManufacturerId { get; set; }
+        public int ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
-
-        public Tyre(string model, decimal price, int productionYear, int sizeProfile, int sizeWidth, int sizeDiameter, TyreType tyreType, Manufacturer manufacturer)
-        {
-            Model = model;
-            Price = price;
-            ProductionYear = productionYear;
-            SizeWidth = sizeWidth;
-            SizeProfile = sizeProfile;
-            SizeDiameter = sizeDiameter;
-            TyreType = tyreType;
-            Manufacturer = manufacturer;
-            ManufacturerId = manufacturer.Id;
-        }
+        
+        public List<OrderTyre> OrderTyres { get; set; }
     }
 }

@@ -2,5 +2,5 @@
 
 public abstract class ModelBase
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public int Id { get; set; }
 }

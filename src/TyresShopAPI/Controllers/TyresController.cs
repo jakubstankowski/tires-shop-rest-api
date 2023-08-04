@@ -1,38 +1,93 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TyresShopAPI.Models;
-using TyresShopAPI.Models.Enum;
+using TyresShopAPI.ModelsDto;
+using TyresShopAPI.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TyresShopAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/tyres")]
     [ApiController]
     public class TyresController : ControllerBase
     {
-        private readonly List<Tyre> tyresList = new()
-        {
-            new Tyre( "P1", 170.0m, 2022, 195, 75, 16, TyreType.Summer,
-                new Manufacturer("Pirelli", "Italien")),
-            new Tyre( "P2", 275.0m, 2023, 180, 65, 18, TyreType.Summer,
-                new Manufacturer("Michellin", "Germany")),
-            new Tyre("P3", 145.0m, 2017, 125, 35, 12, TyreType.Winter,
-                new Manufacturer("Tyro", "France")),
-            new Tyre("P3", 145.0m, 2023, 225, 85, 19, TyreType.AllSeasons,
-                new Manufacturer("GummerRiser", "Germany"))
-        };
+        private readonly ITyreService _tyreService;
 
-        public TyresController()
-        {
 
+        public TyresController(ITyreService tyreService)
+        {
+            _tyreService = tyreService;
         }
 
         [HttpGet]
-        [Route("GetAllTyres")]
-        public IActionResult GetAllTyres()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(tyresList.ToList());
+            try
+            {
+                var tyres = await _tyreService.GetAll();
+                return Ok(tyres);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.ToString());
+            }
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            try
+            {
+                var tyres = await _tyreService.Get(id);
+                return Ok(tyres);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.ToString());
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(TyreCreateDto tyreCreateDto)
+        {
+            try
+            {
+                var createdTyre = await _tyreService.Add(tyreCreateDto);
+                return Ok(createdTyre);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.ToString());
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _tyreService.Remove(id);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.ToString());
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(TyreUpdateDto tyreUpdate)
+        {
+            try
+            {
+                await _tyreService.Update(tyreUpdate);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.ToString());
+            }
+        }
     }
 }

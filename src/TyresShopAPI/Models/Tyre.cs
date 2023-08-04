@@ -1,0 +1,29 @@
+﻿using TyresShopAPI.Models.Base;
+
+namespace TyresShopAPI.Models
+{
+    public class Tyre : ModelBase
+    {
+        public string Brand { get; set; } = string.Empty;
+        public string Model { get; set; } = string.Empty;
+        public bool IsAvailable { get; set; } = true;
+        public decimal Price { get; set; }
+        public int ProductionYear { get; set; }
+        public int SizeWidth { get; set; }
+        public int SizeProfile { get; set; }
+        public int SizeDiameter { get; set; }
+        public TyreType TyreType { get; set; }
+
+        public Tyre(string brand, string model, decimal price, int productionYear, int sizeProfile, int sizeWidth, int sizeDiameter, TyreType tyreType)
+        {
+            Brand = brand;
+            Model = model;
+            Price = price;
+            ProductionYear = productionYear;
+            SizeWidth = sizeWidth;
+            SizeProfile = sizeProfile;
+            SizeDiameter = sizeDiameter;
+            TyreType = tyreType;
+        }
+    }
+}

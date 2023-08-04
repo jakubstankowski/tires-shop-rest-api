@@ -20,8 +20,12 @@
 
         public TyresType TyresType { get; set; }
 
+        public Guid ProducerId { get; set; }
+
+        public Producer Producer { get; set; }
+
         public Tyres(string brand, string model, decimal price, int productionYear,
-            int sizeWidth, int sizeProfile, int sizeDiameter, TyresType tyresType)
+            int sizeWidth, int sizeProfile, int sizeDiameter, TyresType tyresType, Producer producer)
         {
             Brand = brand;
             Model = model;
@@ -31,6 +35,8 @@
             SizeProfile = sizeProfile;
             SizeDiameter = sizeDiameter;
             TyresType = tyresType;
+            ProducerId = producer.Id;
+            Producer = producer;
         }
 
     }

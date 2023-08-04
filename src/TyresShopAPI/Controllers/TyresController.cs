@@ -19,24 +19,52 @@ namespace TyresShopAPI.Controllers
 
         [HttpGet]
         [Route("GetAllTyres")]
-        public IActionResult GetAllTyres()
+        public async Task<IActionResult> GetAllTyres()
         {
-            return Ok();
+            var result = await _tyresService.GetAllTyres();
+            
+            return Ok(result);
         }
 
         [HttpPost]
-        [Route("AddTyre")]
-        public async Task<IActionResult> AddTyre(TyreCreate model)
+        [Route("AddOrUpdateTyre")]
+        public async Task<IActionResult> AddOrUpdateTyre(TyreCreate model)
         {
             try
             {
-                await _tyresService.AddTyre(model);
+                await _tyresService.AddOrUpdateTyre(model);
 
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.ToString());
             }
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("GetTyresById/{tyreId}")]
+        public async Task<IActionResult> GetTyresById(int tyreId)
+        {
+            var result = await _tyresService.GetTyreBydId(tyreId);
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("DeleteTyreById/{tyreId}")]
+        public async Task<IActionResult> DeleteContactById(int tyreId)
+        {
+            try
+            {
+                await _tyresService.DeleteTyreById(tyreId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+
 
             return Ok();
         }

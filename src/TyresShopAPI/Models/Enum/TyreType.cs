@@ -1,4 +1,4 @@
-﻿namespace TyresShopAPI.Models;
+﻿namespace TyresShopAPI.Models.Enum;
 
 public enum TyreType
 {

@@ -1,10 +1,10 @@
 ﻿using TyresShopAPI.Models.Base;
+using TyresShopAPI.Models.Enum;
 
 namespace TyresShopAPI.Models
 {
     public class Tyre : ModelBase
     {
-        public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
         public bool IsAvailable { get; set; } = true;
         public decimal Price { get; set; }
@@ -14,9 +14,11 @@ namespace TyresShopAPI.Models
         public int SizeDiameter { get; set; }
         public TyreType TyreType { get; set; }
 
-        public Tyre(string brand, string model, decimal price, int productionYear, int sizeProfile, int sizeWidth, int sizeDiameter, TyreType tyreType)
+        public Guid ManufacturerId { get; set; }
+        public Manufacturer Manufacturer { get; set; }
+
+        public Tyre(string model, decimal price, int productionYear, int sizeProfile, int sizeWidth, int sizeDiameter, TyreType tyreType, Manufacturer manufacturer)
         {
-            Brand = brand;
             Model = model;
             Price = price;
             ProductionYear = productionYear;
@@ -24,6 +26,8 @@ namespace TyresShopAPI.Models
             SizeProfile = sizeProfile;
             SizeDiameter = sizeDiameter;
             TyreType = tyreType;
+            Manufacturer = manufacturer;
+            ManufacturerId = manufacturer.Id;
         }
     }
 }

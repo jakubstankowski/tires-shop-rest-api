@@ -24,6 +24,14 @@ namespace TyresShopAPI.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("GetTyre")]
+        public IActionResult GetAllTyres(int tyreId)
+        {
+            var tyre = _tyresService.GetTyre(tyreId);
+            return Ok(tyre);
+        }
+
         [HttpPost]
         [Route("AddTyre")]
         public async Task<IActionResult> AddTyre(TyreCreate model)
@@ -40,6 +48,26 @@ namespace TyresShopAPI.Controllers
 
             return Ok();
         }
+
+        [HttpPut]
+        [Route("UpdateTyre")]
+        public async Task<IActionResult> UpdateTyre(int tyreId, TyreCreate model)
+        {
+            _tyresService.UpdateTyre(tyreId, model);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("RemoveTyre")]
+        public async Task<IActionResult> RemoveTyre(int tyreId)
+        {
+            _tyresService.RemoveTyre(tyreId);
+
+            return Ok();
+        }
+
+
 
     }
 }

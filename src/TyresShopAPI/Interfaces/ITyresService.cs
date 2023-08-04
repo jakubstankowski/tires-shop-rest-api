@@ -6,5 +6,11 @@ namespace TyresShopAPI.Interfaces
     {
         public Task AddTyre(TyreCreate tyreCreate);
 
+        Task<TyreCreate> GetTyre(int tyreId);
+
+        Task RemoveTyre(int tyreId);
+
+        Task UpdateTyre(int tyreId, TyreCreate tyreCreate);
+
     }
 }

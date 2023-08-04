@@ -1,9 +1,7 @@
 ﻿namespace TyresShopAPI.Models
 {
-    public class Tyres: BasicModel
+    public class Tyres : BasicModel
     {
-        public string Brand { get; set; } = string.Empty;
-
         public string Model { get; set; } = string.Empty;
 
         public bool IsAvailable { get; set; } = true;
@@ -20,10 +18,11 @@
 
         public TyresType TyresType { get; set; }
 
-        public Tyres(string brand, string model, decimal price, int productionYear,
-            int sizeWidth, int sizeProfile, int sizeDiameter, TyresType tyresType)
+        public Producer Producer { get; set; }
+
+        public Tyres(string model, decimal price, int productionYear,
+            int sizeWidth, int sizeProfile, int sizeDiameter, TyresType tyresType, Producer producer)
         {
-            Brand = brand;
             Model = model;
             Price = price;
             ProductionYear = productionYear;
@@ -31,6 +30,7 @@
             SizeProfile = sizeProfile;
             SizeDiameter = sizeDiameter;
             TyresType = tyresType;
+            Producer = producer;
         }
 
     }

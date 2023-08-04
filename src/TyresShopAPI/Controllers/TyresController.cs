@@ -11,9 +11,9 @@ namespace TyresShopAPI.Controllers
     {
         private readonly List<Tyres> tyresList = new()
         {
-            new Tyres("Pirelli", "P1", 490M, 2022, 50, 16, 16, TyresType.Summer),
-            new Tyres("Michelline", "P2", 123.50M, 2021, 50, 16, 16, TyresType.Winter),
-            new Tyres("Tyro", "P3", 450M, 2023, 50, 16, 16, TyresType.Summer)
+            new Tyres("Pirelli", "P1", 490M, 2022, 50, 16, 16, TyresType.Summer, new Producer("Pirelli", "IT")),
+            new Tyres("Michelline", "P2", 123.50M, 2021, 50, 16, 16, TyresType.Winter, new Producer("Michelline", "FR")),
+            new Tyres("Tyro", "P3", 450M, 2023, 50, 16, 16, TyresType.Summer, new Producer("Tyro", "PL"))
         };
 
         public TyresController()
@@ -27,6 +27,7 @@ namespace TyresShopAPI.Controllers
         {
             return Ok(tyresList.ToList());
         }
+
 
     }
 }

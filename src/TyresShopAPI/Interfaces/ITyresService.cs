@@ -1,4 +1,6 @@
-﻿using TyresShopAPI.Models.Tyres;
+﻿using TyresShopAPI.Models.SearchCriteria;
+using TyresShopAPI.Models.SearchResults;
+using TyresShopAPI.Models.Tyres;
 
 namespace TyresShopAPI.Interfaces
 {
@@ -11,6 +13,8 @@ namespace TyresShopAPI.Interfaces
         public Task<TyreView> GetTyreBydId(int tyreId);
 
         public Task DeleteTyreById(int id);
+
+        public Task<TyreSR> GetTyresBySC(TyreSC sc);
 
     }
 }

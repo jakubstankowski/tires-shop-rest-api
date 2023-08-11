@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TyresShopAPI.Interfaces;
+using TyresShopAPI.Models.SearchCriteria;
 using TyresShopAPI.Models.Tyres;
+using TyresShopAPI.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,6 +26,15 @@ namespace TyresShopAPI.Controllers
         {
             var result = await _tyresService.GetAllTyres();
             
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("GetTyresBySC")]
+        public async Task<IActionResult> GetTyresBySC(TyreSC sc)
+        {
+            var result = await _tyresService.GetTyresBySC(sc);
+
             return Ok(result);
         }
 

@@ -2,6 +2,8 @@
 using TyresShopAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using TyresShopAPI.Models.Tyres;
+using TyresShopAPI.Models.SearchResults;
+using TyresShopAPI.Models.SearchCriteria;
 
 namespace TyresShopAPI.Services
 {
@@ -90,6 +92,30 @@ namespace TyresShopAPI.Services
             tyre.IsDeleted = true;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<TyreSR> GetTyresBySC(TyreSC sc)
+        {
+            var query =  _context.Tyres
+               .Where(x => x.IsAvailable && !x.IsDeleted)
+               .Select(x => new TyreSR.Item()
+               {
+                   Id = x.Id,
+                   Model = x.Model,
+                   ProducerName = x.Producer.Name,
+                   ProductionYear = x.ProductionYear,
+                   TyresTypeName = x.TyresType.ToString(),
+                   Price = x.Price
+               });
+
+            var result = new TyreSR
+            {
+                CurrentPage = sc.PageNumber,
+                Items = query is not null ? await query.Skip((sc.PageNumber - 1) * sc.RowsOnPage).Take(sc.RowsOnPage).ToListAsync() : Enumerable.Empty<TyreSR.Item>(),
+                TotalCount = query is not null ? query.Count() : 0
+            };
+
+            return result;
         }
     }
 }

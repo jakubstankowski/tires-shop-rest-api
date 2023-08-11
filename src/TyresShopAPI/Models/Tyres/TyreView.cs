@@ -1,6 +1,6 @@
 ﻿using TyresShopAPI.Entities;
 
-namespace TyresShopAPI.Models
+namespace TyresShopAPI.Models.Tyres
 {
     public class TyreView : BaseModel
     {

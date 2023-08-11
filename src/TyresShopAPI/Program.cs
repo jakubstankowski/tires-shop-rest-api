@@ -24,6 +24,8 @@ builder.Services.AddDbContext<Context>(
 builder.Services.AddScoped<IContext>(provider => provider.GetService<Context>());
 builder.Services.AddScoped<ITyresService, TyresService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IProducerService, ProducerService>();
+
 
 builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<Context>();

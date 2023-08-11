@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TyresShopAPI.Interfaces;
-using TyresShopAPI.Models;
+using TyresShopAPI.Models.Tyres;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,7 +27,6 @@ namespace TyresShopAPI.Controllers
             return Ok(result);
         }
 
-        [Authorize]
         [HttpPost]
         [Route("AddOrUpdateTyre")]
         public async Task<IActionResult> AddOrUpdateTyre(TyreCreate model)

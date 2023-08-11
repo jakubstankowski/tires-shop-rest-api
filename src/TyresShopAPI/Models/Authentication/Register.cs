@@ -1,6 +1,6 @@
-﻿namespace TyresShopAPI.Models
+﻿namespace TyresShopAPI.Models.Authentication
 {
-    public class Login
+    public class Register
     {
         public string Email { get; set; } = null!;
 

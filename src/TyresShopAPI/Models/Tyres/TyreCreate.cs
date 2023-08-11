@@ -1,7 +1,7 @@
 ﻿using TyresShopAPI.Entities;
 using TyresShopAPI.Enums;
 
-namespace TyresShopAPI.Models
+namespace TyresShopAPI.Models.Tyres
 {
     public class TyreCreate : BaseModel
     {

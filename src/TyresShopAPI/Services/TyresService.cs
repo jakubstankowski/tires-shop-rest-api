@@ -1,17 +1,16 @@
 ﻿using TyresShopAPI.Interfaces;
-using TyresShopAPI.Models;
 using TyresShopAPI.Entities;
 using Microsoft.EntityFrameworkCore;
+using TyresShopAPI.Models.Tyres;
 
 namespace TyresShopAPI.Services
 {
-    public class TyresService : ITyresService
+    public class TyresService : BaseService, ITyresService
     {
-        private IContext _context;
 
-        public TyresService(IContext context)
+        public TyresService(IContext context) : base(context)
         {
-            _context = context;
+     
         }
 
         public async Task AddOrUpdateTyre(TyreCreate model)

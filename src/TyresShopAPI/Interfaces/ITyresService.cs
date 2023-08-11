@@ -1,4 +1,4 @@
-﻿using TyresShopAPI.Models;
+﻿using TyresShopAPI.Models.Tyres;
 
 namespace TyresShopAPI.Interfaces
 {

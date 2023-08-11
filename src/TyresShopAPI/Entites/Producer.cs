@@ -6,7 +6,8 @@
 
         public string Localization { get; set; } = string.Empty;
 
-        public List<Tyre> Tyres { get; set; } = new List<Tyre> { };
+        public bool IsDeleted { get; set; } = false;
 
+        public List<Tyre> Tyres { get; set; } = new List<Tyre> { };
     }
 }

@@ -28,6 +28,40 @@ namespace TyresShopAPI.Services
                 _context.Producers.Add(dbProducer);
             }
 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<ProducerView> GetProducerBydId(int producerId)
+        {
+            var result = await _context.Producers
+                .Where(x => x.Id == producerId && !x.IsDeleted)
+                .Select(x => new ProducerView()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Localization = x.Localization,
+                }).SingleOrDefaultAsync();
+
+            return result ?? throw new ArgumentNullException();
+        }
+
+        public async Task<IEnumerable<ProducerView>> GetAllProducers()
+        {
+            return await _context.Producers
+                .Where(x => !x.IsDeleted)
+                .Select(x => new ProducerView()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Localization = x.Localization,
+                }).ToListAsync();
+        }
+
+        public async Task DeleteProducerById(int id)
+        {
+            var producer = await _context.Producers.Where(x => x.Id == id).SingleOrDefaultAsync() ?? throw new ArgumentNullException();
+
+            producer.IsDeleted = true;
 
             await _context.SaveChangesAsync();
         }

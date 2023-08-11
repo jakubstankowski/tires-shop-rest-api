@@ -97,7 +97,9 @@ namespace TyresShopAPI.Services
         public async Task<TyreSR> GetTyresBySC(TyreSC sc)
         {
             var query =  _context.Tyres
-               .Where(x => x.IsAvailable && !x.IsDeleted)
+               .Where(x => x.IsAvailable && !x.IsDeleted && x.Model == sc.ModelName
+               && x.Price > sc.PrizeFrom && x.Price < sc.PrizeTo 
+               && x.ProductionYear > sc.DateFrom && x.ProductionYear < sc.DateTo)
                .Select(x => new TyreSR.Item()
                {
                    Id = x.Id,
@@ -111,7 +113,9 @@ namespace TyresShopAPI.Services
             var result = new TyreSR
             {
                 CurrentPage = sc.PageNumber,
-                Items = query is not null ? await query.Skip((sc.PageNumber - 1) * sc.RowsOnPage).Take(sc.RowsOnPage).ToListAsync() : Enumerable.Empty<TyreSR.Item>(),
+                Items = query is not null ? 
+                    await query.Skip((sc.PageNumber - 1) * sc.RowsOnPage).Take(sc.RowsOnPage).ToListAsync() 
+                    : Enumerable.Empty<TyreSR.Item>(),
                 TotalCount = query is not null ? query.Count() : 0
             };
 

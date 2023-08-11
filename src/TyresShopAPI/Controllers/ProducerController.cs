@@ -12,11 +12,11 @@ namespace TyresShopAPI.Controllers
     [ApiController]
     public class ProducerController : ControllerBase
     {
-        private readonly IProducerService _service;
+        private readonly IProducerService _producerService;
 
         public ProducerController(IProducerService service)
         {
-            _service = service;
+            _producerService = service;
         }
 
         [HttpPost]
@@ -25,7 +25,7 @@ namespace TyresShopAPI.Controllers
         {
             try
             {
-                await _service.AddOrUpdateProducer(model);
+                await _producerService.AddOrUpdateProducer(model);
             }
             catch (Exception ex)
             {
@@ -39,23 +39,23 @@ namespace TyresShopAPI.Controllers
         [Route("GetAllProducers")]
         public async Task<IActionResult> GetAllProducers()
         {          
-            return Ok(await _service.GetAllProducer());
+            return Ok(await _producerService.GetAllProducer());
         }
 
         [HttpGet]
-        [Route("GetAllProducerById")]
-        public async Task<IActionResult> GetAllProducerById(int producerId)
+        [Route("GetProducerById")]
+        public async Task<IActionResult> GetProducerById(int producerId)
         {
-            return Ok(await _service.GetProducerById(producerId));
+            return Ok(await _producerService.GetProducerById(producerId));
         }
 
         [HttpDelete]
-        [Route("DeleteProducerById/{tyreId}")]
+        [Route("DeleteProducerById/{producerId}")]
         public async Task<IActionResult> DeleteProducerById(int producerId)
         {
             try
             {
-                await _service.DeleteProducerById(producerId);
+                await _producerService.DeleteProducerById(producerId);
             }
             catch (Exception e)
             {

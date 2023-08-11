@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading;
 using TyresShopAPI.Entities;
 using TyresShopAPI.Interfaces;
 using TyresShopAPI.Models.Producer;
+using TyresShopAPI.Models.Tyres;
 
 namespace TyresShopAPI.Services
 {
@@ -30,6 +32,62 @@ namespace TyresShopAPI.Services
 
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteProducerById(int id)
+        {
+
+            var tyre = await _context.Producers.Where(x => x.Id == id).SingleOrDefaultAsync();
+
+            if (tyre == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            tyre.IsDeleted = true;
+
+            await _context.SaveChangesAsync();
+
+
+
+        }
+
+        public async Task<IEnumerable<ProducerView>> GetAllProducers()
+        {
+
+            return await _context.Producers
+    .Where(x=>!x.IsDeleted)
+    .Select(x => new ProducerView()
+    {
+        Id = x.Id,
+        Name = x.Name,
+        Localization = x.Localization,
+    }).ToListAsync();
+
+
+
+        }
+
+        public async Task<ProducerView> GetProducerBydId(int producerId)
+        {
+            var result = await _context.Producers
+                .Where(x => x.Id == producerId && !x.IsDeleted)
+                .Select(x => new ProducerView()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Localization = x.Localization,
+
+                }).SingleOrDefaultAsync();
+
+            if (result == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return result;
+
+            //throw new NotImplementedException();
         }
     }
 }

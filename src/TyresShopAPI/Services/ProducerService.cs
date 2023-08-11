@@ -66,14 +66,14 @@ namespace TyresShopAPI.Services
 
         public async Task DeleteProducerById(int id)
         {
-            var tyre = await _context.Producers.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var producer = await _context.Producers.Where(x => x.Id == id).SingleOrDefaultAsync();
 
-            if (tyre == null)
+            if (producer == null)
             {
                 throw new ArgumentNullException();
             }
 
-            tyre.IsDeleted = true;
+            producer.IsDeleted = true;
 
             await _context.SaveChangesAsync();
         }

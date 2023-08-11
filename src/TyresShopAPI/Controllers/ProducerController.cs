@@ -51,11 +51,11 @@ namespace TyresShopAPI.Controllers
 
         [HttpDelete]
         [Route("DeleteProducerById/{tyreId}")]
-        public async Task<IActionResult> DeleteProducerById(int tyreId)
+        public async Task<IActionResult> DeleteProducerById(int producerId)
         {
             try
             {
-                await _service.DeleteProducerById(tyreId);
+                await _service.DeleteProducerById(producerId);
             }
             catch (Exception e)
             {

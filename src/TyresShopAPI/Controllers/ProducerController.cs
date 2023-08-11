@@ -43,7 +43,7 @@ namespace TyresShopAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetProducerById")]
+        [Route("GetProducerById/{producerId}")]
         public async Task<IActionResult> GetProducerById(int producerId)
         {
             return Ok(await _producerService.GetProducerById(producerId));

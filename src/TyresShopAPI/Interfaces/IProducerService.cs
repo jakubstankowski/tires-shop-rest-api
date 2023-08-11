@@ -7,5 +7,6 @@ namespace TyresShopAPI.Interfaces
         public Task AddOrUpdateProducer(ProducerCreate producerCreate);
         Task<IEnumerable<ProducerCreate>> GetAllProducer();
         Task<ProducerCreate> GetProducerById(int producerId);
+        Task DeleteProducerById(int id);
     }
 }

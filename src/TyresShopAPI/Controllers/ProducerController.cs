@@ -2,6 +2,7 @@
 using TyresShopAPI.Interfaces;
 using TyresShopAPI.Models.Producer;
 using TyresShopAPI.Models.Tyres;
+using TyresShopAPI.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -46,6 +47,23 @@ namespace TyresShopAPI.Controllers
         public async Task<IActionResult> GetAllProducerById(int producerId)
         {
             return Ok(await _service.GetProducerById(producerId));
+        }
+
+        [HttpDelete]
+        [Route("DeleteProducerById/{tyreId}")]
+        public async Task<IActionResult> DeleteProducerById(int tyreId)
+        {
+            try
+            {
+                await _service.DeleteProducerById(tyreId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+
+
+            return Ok();
         }
     }
 }

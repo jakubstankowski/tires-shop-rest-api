@@ -63,5 +63,19 @@ namespace TyresShopAPI.Services
 
             return producerCreate;
         }
+
+        public async Task DeleteProducerById(int id)
+        {
+            var tyre = await _context.Producers.Where(x => x.Id == id).SingleOrDefaultAsync();
+
+            if (tyre == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            tyre.IsDeleted = true;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

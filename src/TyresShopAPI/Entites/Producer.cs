@@ -8,5 +8,7 @@
 
         public List<Tyre> Tyres { get; set; } = new List<Tyre> { };
 
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

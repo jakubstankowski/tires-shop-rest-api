@@ -66,7 +66,6 @@ namespace TyresShopAPI.Controllers
                 throw new Exception(e.ToString());
             }
 
-
             return Ok();
         }
 

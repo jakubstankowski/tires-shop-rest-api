@@ -1,9 +1,9 @@
-﻿using TyresShopAPI.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
 using TyresShopAPI.Entities;
-using Microsoft.EntityFrameworkCore;
-using TyresShopAPI.Models.Tyres;
-using TyresShopAPI.Models.SearchResults;
+using TyresShopAPI.Interfaces;
 using TyresShopAPI.Models.SearchCriteria;
+using TyresShopAPI.Models.SearchResults;
+using TyresShopAPI.Models.Tyres;
 
 namespace TyresShopAPI.Services
 {
@@ -12,14 +12,14 @@ namespace TyresShopAPI.Services
 
         public TyresService(IContext context) : base(context)
         {
-     
+
         }
 
         public async Task AddOrUpdateTyre(TyreCreate model)
         {
             var dbTyre = new Tyre();
 
-            if(model.Id > 0)
+            if (model.Id > 0)
             {
                 dbTyre = await _context.Tyres.SingleAsync(c => c.Id == model.Id);
             }
@@ -34,7 +34,7 @@ namespace TyresShopAPI.Services
             dbTyre.SizeWidth = model.SizeWidth;
             dbTyre.SizeDiameter = model.SizeDiameter;
 
-            if(model.Id == 0)
+            if (model.Id == 0)
             {
                 _context.Tyres.Add(dbTyre);
             }
@@ -96,8 +96,11 @@ namespace TyresShopAPI.Services
 
         public async Task<TyreSR> GetTyresBySC(TyreSC sc)
         {
-            var query =  _context.Tyres
-               .Where(x => x.IsAvailable && !x.IsDeleted)
+            var query = _context.Tyres
+               .Where(x => x.IsAvailable && !x.IsDeleted
+                    && x.Price >= sc.PriceMin && x.Price <= sc.PriceMax
+                    && x.ProductionYear >= sc.ProductionYearMin && x.ProductionYear <= sc.ProductionYearMax
+                    && x.Model.Contains(sc.Model))
                .Select(x => new TyreSR.Item()
                {
                    Id = x.Id,

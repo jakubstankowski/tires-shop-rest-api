@@ -32,10 +32,10 @@ namespace TyresShopAPI.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ProducerCreate>> GetAllProducer()
+        public async Task<IEnumerable<ProducerGet>> GetAllProducer()
         {
             var producers = await _context.Producers.Where(c => !c.IsDeleted)
-                .Select(x => new ProducerCreate() 
+                .Select(x => new ProducerGet() 
                 {
                     Id = x.Id,
                     Name = x.Name,

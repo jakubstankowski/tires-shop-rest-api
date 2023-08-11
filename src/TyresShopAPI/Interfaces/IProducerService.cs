@@ -8,8 +8,8 @@ namespace TyresShopAPI.Interfaces
 
         public Task<IEnumerable<ProducerView>> GetAllProducers();
 
-        public Task<ProducerView> GetProducerBydId(int tyreId);
+        public Task<ProducerView> GetProducerBydId(int producerId);
 
-        public Task DeleteProducerById(int id);
+        public Task DeleteProducerById(int producerId);
     }
 }

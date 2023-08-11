@@ -10,18 +10,18 @@ namespace TyresShopAPI.Controllers
     [ApiController]
     public class ProducerController : ControllerBase
     {
-        private readonly IProducerService _service;
+        private readonly IProducerService _producerService;
 
         public ProducerController(IProducerService service)
         {
-            _service = service;
+            _producerService = service;
         }
 
         [HttpGet]
         [Route("GetAllProducers")]
         public async Task<IActionResult> GetAllTyres()
         {
-            var result = await _service.GetAllProducers();
+            var result = await _producerService.GetAllProducers();
 
             return Ok(result);
         }
@@ -32,7 +32,7 @@ namespace TyresShopAPI.Controllers
         {
             try
             {
-                await _service.AddOrUpdateProducer(model);
+                await _producerService.AddOrUpdateProducer(model);
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace TyresShopAPI.Controllers
         [Route("GetProducerById/{producerId}")]
         public async Task<IActionResult> GetProducerById(int producerId)
         {
-            var result = await _service.GetProducerBydId(producerId);
+            var result = await _producerService.GetProducerBydId(producerId);
 
             return Ok(result);
         }
@@ -57,7 +57,7 @@ namespace TyresShopAPI.Controllers
         {
             try
             {
-                await _service.DeleteProducerById(producerId);
+                await _producerService.DeleteProducerById(producerId);
             }
             catch (Exception e)
             {

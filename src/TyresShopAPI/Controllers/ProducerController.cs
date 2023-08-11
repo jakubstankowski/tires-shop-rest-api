@@ -33,5 +33,19 @@ namespace TyresShopAPI.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("GetAllProducers")]
+        public async Task<IActionResult> GetAllProducers()
+        {          
+            return Ok(await _service.GetAllProducer());
+        }
+
+        [HttpGet]
+        [Route("GetAllProducerById")]
+        public async Task<IActionResult> GetAllProducerById(int producerId)
+        {
+            return Ok(await _service.GetProducerById(producerId));
+        }
     }
 }

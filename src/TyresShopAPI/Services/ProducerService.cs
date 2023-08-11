@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TyresShopAPI.Entities;
+using TyresShopAPI.Exceptions;
 using TyresShopAPI.Interfaces;
 using TyresShopAPI.Models.Producer;
 
@@ -30,6 +31,37 @@ namespace TyresShopAPI.Services
 
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ProducerCreate>> GetAllProducer()
+        {
+            var producers = await _context.Producers.Where(c => !c.IsDeleted)
+                .Select(x => new ProducerCreate() 
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Localization = x.Localization,
+                }).ToListAsync();
+            return producers;
+        }
+
+        public async Task<ProducerCreate> GetProducerById(int producerId)
+        {
+            var producer = await _context.Producers.Where(c => !c.IsDeleted && c.Id == producerId).SingleOrDefaultAsync();
+
+            if (producer == null)
+            {
+                throw new DidntFindProducerAtGivenIdException(producerId);
+            }
+
+            ProducerCreate producerCreate = new ProducerCreate() 
+            {
+                Id = producer.Id,
+                Name = producer.Name,
+                Localization = producer.Localization,
+            };
+
+            return producerCreate;
         }
     }
 }

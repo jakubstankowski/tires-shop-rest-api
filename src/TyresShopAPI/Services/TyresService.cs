@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using TyresShopAPI.Models.Tyres;
 using TyresShopAPI.Models.SearchResults;
 using TyresShopAPI.Models.SearchCriteria;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Linq.Expressions;
 using TyresShopAPI.Enums;
+using TyresShopAPI.Exceptions;
 
 namespace TyresShopAPI.Services
 {
     public class TyresService : BaseService, ITyresService
     {
+        private readonly ILogger<TyresService> _logger;
 
-        public TyresService(IContext context) : base(context)
+        public TyresService(IContext context, ILogger<TyresService> logger) : base(context)
         {
-
+            _logger = logger;
         }
 
         public async Task AddOrUpdateTyre(TyreCreate model)
@@ -42,8 +42,9 @@ namespace TyresShopAPI.Services
                 _context.Tyres.Add(dbTyre);
             }
 
-
             await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Tyre success add or update");
         }
 
         public async Task<TyreView> GetTyreBydId(int tyreId)
@@ -62,7 +63,8 @@ namespace TyresShopAPI.Services
 
             if (result == null)
             {
-                throw new ArgumentNullException();
+                _logger.LogInformation($"Tyre with id {tyreId} not found");
+                throw new TyreNotFoundException(tyreId);
             }
 
             return result;
@@ -83,18 +85,21 @@ namespace TyresShopAPI.Services
                 }).ToListAsync();
         }
 
-        public async Task DeleteTyreById(int id)
+        public async Task DeleteTyreById(int tyreId)
         {
-            var tyre = await _context.Tyres.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var tyre = await _context.Tyres.Where(x => x.Id == tyreId).SingleOrDefaultAsync();
 
             if (tyre == null)
             {
-                throw new ArgumentNullException();
+                _logger.LogInformation($"Tyre with id {tyreId} not found");
+                throw new TyreNotFoundException(tyreId);
             }
 
             tyre.IsDeleted = true;
 
             await _context.SaveChangesAsync();
+
+            _logger.LogInformation($"Tyre with id {tyreId} success delete");
         }
 
         public async Task<TyreSR> GetTyresBySC(TyreSC sc)
@@ -151,7 +156,7 @@ namespace TyresShopAPI.Services
                     break;
             }
 
-            if (sc.SortDirection == Enums.SortDirection.Descending)
+            if (sc.SortDirection == SortDirection.Descending)
             {
                 query = query.OrderByDescending(x => x.Id);
             }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TyresShopAPI.Entities;
+using TyresShopAPI.Exceptions;
 using TyresShopAPI.Interfaces;
 using TyresShopAPI.Models.Producer;
 using TyresShopAPI.Models.Tyres;
@@ -8,8 +9,11 @@ namespace TyresShopAPI.Services
 {
     public class ProducerService : BaseService, IProducerService
     {
-        public ProducerService(IContext context) : base(context)
+        private readonly ILogger<ProducerService> _logger;
+
+        public ProducerService(IContext context, ILogger<ProducerService> logger) : base(context)
         {
+            _logger = logger;
         }
 
         public async Task AddOrUpdateProducer(ProducerCreate model)
@@ -29,8 +33,9 @@ namespace TyresShopAPI.Services
                 _context.Producers.Add(dbProducer);
             }
 
-
             await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Producer success add or update");
         }
 
         public async Task<ProducerView> GetProducerBydId(int producerId)
@@ -46,7 +51,8 @@ namespace TyresShopAPI.Services
 
             if (result == null)
             {
-                throw new ArgumentNullException();
+                _logger.LogInformation($"Producer with id {producerId} not found");
+                throw new ProducerNotFoundException(producerId);
             }
 
             return result;
@@ -64,18 +70,21 @@ namespace TyresShopAPI.Services
                 }).ToListAsync();
         }
 
-        public async Task DeleteProducerById(int id)
+        public async Task DeleteProducerById(int producerId)
         {
-            var producer = await _context.Producers.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var producer = await _context.Producers.Where(x => x.Id == producerId).SingleOrDefaultAsync();
 
             if (producer == null)
             {
-                throw new ArgumentNullException();
+                _logger.LogInformation($"Producer with id {producerId} not found");
+                throw new ProducerNotFoundException(producerId);
             }
 
             producer.IsDeleted = true;
 
             await _context.SaveChangesAsync();
+
+            _logger.LogInformation($"Producer with id {producerId} success delete");
         }
     }
 }

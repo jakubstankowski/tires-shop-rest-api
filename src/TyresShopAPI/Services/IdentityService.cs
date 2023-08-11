@@ -9,12 +9,10 @@ namespace TyresShopAPI.Services
 {
     public class IdentityService : IIdentityService
     {
-        private UserManager<IdentityUser> _userManager;
         private IConfiguration _config;
 
-        public IdentityService(UserManager<IdentityUser> userManager, IConfiguration config)
+        public IdentityService( IConfiguration config)
         {
-            _userManager = userManager;
             _config = config;
         }
 

@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using TyresShopAPI.Application.Interfaces;
-using TyresShopAPI.Application.Services;
+using TyresShopAPI.Infrastructure;
 using TyresShopAPI.Infrastructure.Persistance;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,10 +20,7 @@ builder.Services.AddDbContext<Context>(
            options.UseSqlServer(builder.Configuration.GetConnectionString("TyresShopConnection"));
        });
 
-builder.Services.AddScoped<ITyresService, TyresService>();
-builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddScoped<IProducerService, ProducerService>();
-
+builder.Services.AddDependencyInjection();
 
 builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<Context>();
@@ -57,5 +53,20 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+var context = services.GetRequiredService<Context>();
+var logger = services.GetRequiredService<ILogger<Program>>();
+
+try
+{
+    await context.Database.MigrateAsync();
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "An error occured during migration");
+}
 
 app.Run();

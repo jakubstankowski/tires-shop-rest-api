@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TyresShopAPI.Interfaces;
-using TyresShopAPI.Models.Producer;
+using TyresShopAPI.Application.Interfaces;
+using TyresShopAPI.Domain.Models.Producer;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

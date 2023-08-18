@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using TyresShopAPI.Interfaces;
-using TyresShopAPI.Persistance;
-using TyresShopAPI.Services;
+using TyresShopAPI.Application.Interfaces;
+using TyresShopAPI.Application.Services;
+using TyresShopAPI.Infrastructure.Persistance;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +21,6 @@ builder.Services.AddDbContext<Context>(
            options.UseSqlServer(builder.Configuration.GetConnectionString("TyresShopConnection"));
        });
 
-builder.Services.AddScoped<IContext>(provider => provider.GetService<Context>());
 builder.Services.AddScoped<ITyresService, TyresService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();

@@ -18,6 +18,8 @@ namespace TyresShopAPI.Infrastructure.Persistance
         public DbSet<Customer> Customers { get; set; } = null!;
 
         public DbSet<Address> Adresses { get; set; } = null!;
+        public DbSet<Cart> Cart { get; set; } = null!;
+        public DbSet<CartItem> CartItem { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

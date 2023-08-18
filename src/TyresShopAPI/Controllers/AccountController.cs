@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TyresShopAPI.Interfaces;
-using TyresShopAPI.Models.Authentication;
+using TyresShopAPI.Application.Interfaces;
+using TyresShopAPI.Domain.Models.Authentication;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -73,7 +74,7 @@ namespace TyresShopAPI.Controllers
             return new User
             {
                 Token = _identityService.GenerateToken(user),
-                Email = user.Email
+                Email = user.Email ?? string.Empty
             };
         }
     }

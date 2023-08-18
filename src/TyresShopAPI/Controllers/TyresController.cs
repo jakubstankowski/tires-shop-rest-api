@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using TyresShopAPI.Interfaces;
-using TyresShopAPI.Models.SearchCriteria;
-using TyresShopAPI.Models.Tyres;
-using TyresShopAPI.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using TyresShopAPI.Application.Interfaces;
+using TyresShopAPI.Domain.Models.SearchCriteria;
+using TyresShopAPI.Domain.Models.Tyres;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

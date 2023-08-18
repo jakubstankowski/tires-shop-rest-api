@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TyresShopAPI.Domain.Entities;
+using TyresShopAPI.Domain.Entities.Cart;
 using TyresShopAPI.Domain.Entities.Customers;
-using TyresShopAPI.Domain.Entities.Order;
 
 namespace TyresShopAPI.Infrastructure.Persistance
 {
@@ -20,10 +20,9 @@ namespace TyresShopAPI.Infrastructure.Persistance
 
         public DbSet<Address> Adresses { get; set; } = null!;
 
-        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<Cart> Carts { get; set; } = null!;
 
-        public DbSet<BasketItem> Basket { get; set; } = null!;
-
+        public DbSet<CartItem> CartItems { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

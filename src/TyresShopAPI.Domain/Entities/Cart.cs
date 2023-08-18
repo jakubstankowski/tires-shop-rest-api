@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TyresShopAPI.Domain.Enums;
 
 namespace TyresShopAPI.Domain.Entities
 {
@@ -13,6 +14,7 @@ namespace TyresShopAPI.Domain.Entities
         public decimal PriceTotal { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime Updated { get; set; } = DateTime.Now;
+        public OrderStatus OrderStatus { get; set; }
         public List<CartItem> CartItems { get; set; }
     }
 }

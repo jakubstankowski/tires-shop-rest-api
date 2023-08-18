@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.WebUI", "TyresShopAPI\TyresShopAPI.WebUI.csproj", "{9280B24D-F723-4E68-98CF-9946438ABDA9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.Domain", "TyresShopAPI.Domain\TyresShopAPI.Domain.csproj", "{4BE55CF2-2329-4889-AE4A-5EC89B2BABEB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.Application", "TyresShopAPI.Application\TyresShopAPI.Application.csproj", "{851594E1-EB9A-4049-9D05-B23DAE621CF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TyresShopAPI.Infrastructure", "TyresShopAPI.Infrastructure\TyresShopAPI.Infrastructure.csproj", "{763C9F8B-BFDE-4439-9C35-B2ED7ECCC742}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.Infrastructure", "TyresShopAPI.Infrastructure\TyresShopAPI.Infrastructure.csproj", "{763C9F8B-BFDE-4439-9C35-B2ED7ECCC742}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.WebUI", "TyresShopAPI.WebUI\TyresShopAPI.WebUI.csproj", "{6A90B74D-B078-44EB-8E54-8836FC2E1616}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9280B24D-F723-4E68-98CF-9946438ABDA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9280B24D-F723-4E68-98CF-9946438ABDA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9280B24D-F723-4E68-98CF-9946438ABDA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9280B24D-F723-4E68-98CF-9946438ABDA9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4BE55CF2-2329-4889-AE4A-5EC89B2BABEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4BE55CF2-2329-4889-AE4A-5EC89B2BABEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BE55CF2-2329-4889-AE4A-5EC89B2BABEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{763C9F8B-BFDE-4439-9C35-B2ED7ECCC742}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{763C9F8B-BFDE-4439-9C35-B2ED7ECCC742}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{763C9F8B-BFDE-4439-9C35-B2ED7ECCC742}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A90B74D-B078-44EB-8E54-8836FC2E1616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A90B74D-B078-44EB-8E54-8836FC2E1616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A90B74D-B078-44EB-8E54-8836FC2E1616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A90B74D-B078-44EB-8E54-8836FC2E1616}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,5 +7,8 @@
         public int TyreId { get; set; }
 
         public int Quantity { get; set; }
+
+        public decimal TotalValue { get; set; }
+
     }
 }

@@ -41,19 +41,19 @@ namespace TyresShopAPI.Infrastructure.Persistance
 
             modelBuilder.Entity<Tyre>().HasData(new List<Tyre>()
             {
-                new Tyre() {Id = 1, Model = "P2", Price = 125.50M, ProductionYear = 2020, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0},
-                new Tyre() {Id = 2, Model = "P3", Price = 125.50M, ProductionYear = 2021, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0},
-                new Tyre() {Id = 3, Model = "P4", Price = 125.50M, ProductionYear = 2022, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0},
+                new Tyre() {Id = 1, Model = "P2", Price = 125.50M, ProductionYear = 2020, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
+                new Tyre() {Id = 2, Model = "P3", Price = 125.50M, ProductionYear = 2021, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
+                new Tyre() {Id = 3, Model = "P4", Price = 125.50M, ProductionYear = 2022, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
             });
 
-            modelBuilder.Entity<Tyre>().HasData(new List<Address>()
+            modelBuilder.Entity<Address>().HasData(new List<Address>()
             {
                 new Address() {Id = 1, City = "Gdansk", HomeNumber = 3, PostalCode = "00-000", Street = "Grodzka"},
                 new Address() {Id = 2, City = "Warszawa", HomeNumber = 3, PostalCode = "00-000", Street = "Grodzka"},
                 new Address() {Id = 3, City = "Radom", HomeNumber = 3, PostalCode = "00-000", Street = "Grodzka"}
             });
 
-            modelBuilder.Entity<Tyre>().HasData(new List<Customer>()
+            modelBuilder.Entity<Customer>().HasData(new List<Customer>()
             {
                 new Customer() {Id = 1, FirstName = "Jakub", LastName = "Stankowski"},
                 new Customer() {Id = 2, FirstName = "Jan", LastName = "Nowicki"},

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TyresShopAPI.Application.Interfaces;
+using TyresShopAPI.Domain.Entities.Customers;
 using TyresShopAPI.Domain.Models.Authentication;
 
 
@@ -12,14 +13,16 @@ namespace TyresShopAPI.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Customer> _userManager;
         private readonly IIdentityService _identityService;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ICustomerCartService _customerCartService;
+        private readonly SignInManager<Customer> _signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IIdentityService identityService)
+        public AccountController(UserManager<Customer> userManager, SignInManager<Customer> signInManager, IIdentityService identityService, ICustomerCartService customerCartService)
         {
             _userManager = userManager;
             _identityService = identityService;
+            _customerCartService = customerCartService;
             _signInManager = signInManager;
         }
 
@@ -33,8 +36,10 @@ namespace TyresShopAPI.Controllers
                 return BadRequest($"Username with email {registerModel.Email} already exist");
             }
 
-            var user = new IdentityUser
+            var user = new Customer
             {
+                FirstName = registerModel.FirstName,
+                LastName = registerModel.LastName,
                 Email = registerModel.Email,
                 UserName = registerModel.Email
             };
@@ -45,6 +50,8 @@ namespace TyresShopAPI.Controllers
             {
                 return BadRequest();
             }
+
+            await _customerCartService.RegisterCustomerCart(user.Email);
 
             return new User
             {

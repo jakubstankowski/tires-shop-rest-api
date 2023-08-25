@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using TyresShopAPI.Domain.Entities.Customers;
 using TyresShopAPI.Infrastructure;
 using TyresShopAPI.Infrastructure.Persistance;
 
@@ -22,7 +23,7 @@ builder.Services.AddDbContext<Context>(
 
 builder.Services.AddDependencyInjection();
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddDefaultIdentity<Customer>()
     .AddEntityFrameworkStores<Context>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

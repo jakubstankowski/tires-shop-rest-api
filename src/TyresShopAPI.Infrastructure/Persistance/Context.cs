@@ -7,7 +7,7 @@ using TyresShopAPI.Domain.Entities.OrderAggregate;
 
 namespace TyresShopAPI.Infrastructure.Persistance
 {
-    public class Context : IdentityDbContext
+    public class Context : IdentityDbContext<Customer>
     {
         public Context(DbContextOptions options) : base(options)
         {
@@ -16,8 +16,6 @@ namespace TyresShopAPI.Infrastructure.Persistance
         public DbSet<Tyre> Tyres { get; set; } = null!;
 
         public DbSet<Producer> Producers { get; set; } = null!;
-
-        public DbSet<Customer> Customers { get; set; } = null!;
 
         public DbSet<CustomerAddress> CustomerAddresses { get; set; } = null!;
 
@@ -41,6 +39,11 @@ namespace TyresShopAPI.Infrastructure.Persistance
                  .HasOne<CustomerAddress>(a => a.Address)
                  .WithOne(cs => cs.Customer)
                  .HasForeignKey<CustomerAddress>(ca => ca.CustomerId);
+
+            modelBuilder.Entity<Customer>()
+                 .HasOne<CustomerCart>(a => a.CustomerCart)
+                 .WithOne(cs => cs.Customer)
+                 .HasForeignKey<CustomerCart>(ca => ca.CustomerId);
 
             modelBuilder.Entity<CartItem>()
             .Property(o => o.TotalValue)
@@ -74,20 +77,6 @@ namespace TyresShopAPI.Infrastructure.Persistance
                 new Tyre() {Id = 1, Model = "P2", Price = 125.50M, ProductionYear = 2020, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
                 new Tyre() {Id = 2, Model = "P3", Price = 125.50M, ProductionYear = 2021, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
                 new Tyre() {Id = 3, Model = "P4", Price = 125.50M, ProductionYear = 2022, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
-            });
-
-            modelBuilder.Entity<Customer>().HasData(new List<Customer>()
-            {
-                new Customer() {Id = 1, FirstName = "Jakub", LastName = "Stankowski"},
-                new Customer() {Id = 2, FirstName = "Jan", LastName = "Nowicki"},
-                new Customer() {Id = 3, FirstName = "Maryla", LastName = "Rodowicz"}
-            });
-
-            modelBuilder.Entity<CustomerAddress>().HasData(new List<CustomerAddress>()
-            {
-                new CustomerAddress() {Id = 1, City = "Gdansk", HomeNumber = 3, PostalCode = "00-000", Street = "Grodzka", CustomerId = 1},
-                new CustomerAddress() {Id = 2, City = "Warszawa", HomeNumber = 3, PostalCode = "00-000", Street = "Grodzka", CustomerId = 2},
-                new CustomerAddress() {Id = 3, City = "Radom", HomeNumber = 3, PostalCode = "00-000", Street = "Grodzka", CustomerId = 3}
             });
 
             modelBuilder.Entity<DeliveryMethod>().HasData(new List<DeliveryMethod>()

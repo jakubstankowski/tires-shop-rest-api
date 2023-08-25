@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TyresShopAPI.Infrastructure.Persistance;
 
@@ -11,9 +12,11 @@ using TyresShopAPI.Infrastructure.Persistance;
 namespace TyresShopAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230825095611_AddCustomerCartToCustomer")]
+    partial class AddCustomerCartToCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,10 +89,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -141,10 +140,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -267,9 +262,8 @@ namespace TyresShopAPI.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("DeliveryMethodId")
                         .HasColumnType("int");
@@ -280,6 +274,47 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("CustomerCarts");
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Jakub",
+                            LastName = "Stankowski"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FirstName = "Jan",
+                            LastName = "Nowicki"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FirstName = "Maryla",
+                            LastName = "Rodowicz"
+                        });
                 });
 
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.CustomerAddress", b =>
@@ -294,9 +329,8 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<double>("HomeNumber")
                         .HasColumnType("float");
@@ -315,6 +349,35 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("CustomerAddresses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Gdansk",
+                            CustomerId = 1,
+                            HomeNumber = 3.0,
+                            PostalCode = "00-000",
+                            Street = "Grodzka"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "Warszawa",
+                            CustomerId = 2,
+                            HomeNumber = 3.0,
+                            PostalCode = "00-000",
+                            Street = "Grodzka"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            City = "Radom",
+                            CustomerId = 3,
+                            HomeNumber = 3.0,
+                            PostalCode = "00-000",
+                            Street = "Grodzka"
+                        });
                 });
 
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.DeliveryMethod", b =>
@@ -372,9 +435,9 @@ namespace TyresShopAPI.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CustomerId")
+                    b.Property<string>("BuyerEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -390,8 +453,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
@@ -583,21 +644,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Customer", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Customer");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -682,17 +728,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.Order", b =>
-                {
-                    b.HasOne("TyresShopAPI.Domain.Entities.Customers.Customer", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.OrderDelivery", b =>
                 {
                     b.HasOne("TyresShopAPI.Domain.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
@@ -735,6 +770,13 @@ namespace TyresShopAPI.Infrastructure.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Customer", b =>
+                {
+                    b.Navigation("Address");
+
+                    b.Navigation("CustomerCart");
+                });
+
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.DeliveryMethod", b =>
                 {
                     b.Navigation("OrderDeliveries");
@@ -750,15 +792,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.Producer", b =>
                 {
                     b.Navigation("Tyres");
-                });
-
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Customer", b =>
-                {
-                    b.Navigation("Address");
-
-                    b.Navigation("CustomerCart");
-
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

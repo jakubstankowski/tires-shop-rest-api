@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace TyresShopAPI.Domain.Entities.Customers
+﻿namespace TyresShopAPI.Domain.Entities.Customers
 {
     public class CustomerAddress : BaseModel
     {
@@ -14,6 +12,6 @@ namespace TyresShopAPI.Domain.Entities.Customers
 
         public Customer Customer { get; set; }
 
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; }
     }
 }

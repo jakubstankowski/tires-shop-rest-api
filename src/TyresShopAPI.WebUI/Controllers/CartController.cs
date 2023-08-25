@@ -11,9 +11,9 @@ namespace TyresShopAPI.WebUI.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        private ICartService _cartService;
+        private ICustomerCartService _cartService;
 
-        public CartController(ICartService cartService)
+        public CartController(ICustomerCartService cartService)
         {
             _cartService = cartService;
         }
@@ -21,17 +21,8 @@ namespace TyresShopAPI.WebUI.Controllers
 
         [HttpPost]
         [Route("AddOrUpdateCartItem")]
-        public async Task<IActionResult> AddOrUpdateCartItem(CreateCartItem model)
+        public async Task<IActionResult> AddOrUpdateCartItem(UpdateCustomerCart model)
         {
-            try
-            {
-                await _cartService.AddCartItem(model);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.ToString());
-            }
-
             return Ok();
         }
 

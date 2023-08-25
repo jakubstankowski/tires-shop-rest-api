@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace TyresShopAPI.Domain.Entities.Customers
+﻿namespace TyresShopAPI.Domain.Entities.Customers
 {
     public class CustomerAddress : BaseModel
     {

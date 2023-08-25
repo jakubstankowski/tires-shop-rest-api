@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using TyresShopAPI.Domain.Entities.Cart;
+using TyresShopAPI.Domain.Entities.OrderAggregate;
 
 namespace TyresShopAPI.Domain.Entities.Customers
 {
@@ -12,5 +13,7 @@ namespace TyresShopAPI.Domain.Entities.Customers
         public string LastName { get; set; } = string.Empty;
 
         public CustomerAddress? Address { get; set; }
+
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TyresShopAPI.Infrastructure.Persistance;
 
@@ -11,9 +12,11 @@ using TyresShopAPI.Infrastructure.Persistance;
 namespace TyresShopAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230825110606_UpdateCustomer")]
+    partial class UpdateCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -372,9 +375,9 @@ namespace TyresShopAPI.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CustomerId")
+                    b.Property<string>("BuyerEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -390,8 +393,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
@@ -682,17 +683,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.Order", b =>
-                {
-                    b.HasOne("TyresShopAPI.Domain.Entities.Customers.Customer", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.OrderDelivery", b =>
                 {
                     b.HasOne("TyresShopAPI.Domain.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
@@ -757,8 +747,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("CustomerCart");
-
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

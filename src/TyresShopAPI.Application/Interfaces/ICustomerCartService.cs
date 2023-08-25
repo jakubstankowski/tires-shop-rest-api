@@ -4,13 +4,11 @@ namespace TyresShopAPI.Application.Interfaces
 {
     public interface ICustomerCartService
     {
-        public Task AddOrUpdateCartItem(CartItemCreate model);
+        public Task AddOrUpdateCartItem(CartItemModel model);
 
-        public Task RemoveCartItem(int cartItemId);
+        public Task RemoveCartItem(CartItemModel model);
 
-        public Task UpdateCustomerCart(UpdateCustomerCart model);
-
-        public Task RegisterCustomerCart(int customerId);
+        public Task RegisterCustomerCart(string customerEmail);
 
     }
 }

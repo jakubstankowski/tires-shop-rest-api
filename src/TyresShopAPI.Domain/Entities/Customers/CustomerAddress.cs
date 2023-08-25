@@ -12,6 +12,6 @@
 
         public Customer Customer { get; set; }
 
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; }
     }
 }

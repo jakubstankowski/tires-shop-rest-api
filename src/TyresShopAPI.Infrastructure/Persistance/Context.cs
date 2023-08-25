@@ -7,7 +7,7 @@ using TyresShopAPI.Domain.Entities.OrderAggregate;
 
 namespace TyresShopAPI.Infrastructure.Persistance
 {
-    public class Context : IdentityDbContext
+    public class Context : IdentityDbContext<Customer>
     {
         public Context(DbContextOptions options) : base(options)
         {
@@ -16,8 +16,6 @@ namespace TyresShopAPI.Infrastructure.Persistance
         public DbSet<Tyre> Tyres { get; set; } = null!;
 
         public DbSet<Producer> Producers { get; set; } = null!;
-
-        public DbSet<Customer> Customers { get; set; } = null!;
 
         public DbSet<CustomerAddress> CustomerAddresses { get; set; } = null!;
 

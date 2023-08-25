@@ -2,14 +2,12 @@
 
 namespace TyresShopAPI.Domain.Models.Cart
 {
-    public class CartItemCreate : BaseModel
+    public class CartItemModel
     {
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; } = null!;
 
         public int TyreId { get; set; }
 
         public int Quantity { get; set; }
-
-        public decimal TotalValue { get; set; }
     }
 }

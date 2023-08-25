@@ -1,4 +1,8 @@
-﻿using TyresShopAPI.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TyresShopAPI.Application.Interfaces;
+using TyresShopAPI.Domain.Entities;
+using TyresShopAPI.Domain.Entities.Cart;
+using TyresShopAPI.Domain.Exceptions;
 using TyresShopAPI.Domain.Models.Cart;
 using TyresShopAPI.Infrastructure.Persistance;
 
@@ -10,24 +14,93 @@ namespace TyresShopAPI.Application.Services
         {
         }
 
-        public Task AddOrUpdateCartItem(CartItemCreate model)
+        public async Task AddOrUpdateCartItem(CartItemModel model)
         {
-            throw new NotImplementedException();
+            var isTyreExist = _context.Tyres.Any(t => t.Id == model.TyreId);
+
+            if (!isTyreExist)
+            {
+                throw new TyreNotFoundException(model.TyreId);
+            }
+
+            var customer = await _context
+                .Users.Include(u => u.CustomerCart)
+                .ThenInclude(ct => ct.Items)
+                .FirstOrDefaultAsync(x => x.Id == model.CustomerId);
+
+            if (customer is null)
+            {
+                throw new CustomerNotFoundException(model.CustomerId);
+            }
+
+            var isCartItemExist = customer.CustomerCart.Items.Any(x => x.TyreId == model.TyreId);
+
+            var cartItem = new CartItem()
+            {
+                TyreId = model.TyreId,
+                Quantity = model.Quantity,
+                TotalValue = await CalculateTotalValue(model.TyreId, model.Quantity),
+                CustomerCart = customer.CustomerCart
+            };
+
+            if (!isCartItemExist)
+            {
+                customer.CustomerCart.Items.Add(cartItem);
+            }
+            else
+            {
+                var dbCartItem = customer.CustomerCart.Items.FirstOrDefault(x => x.TyreId == model.TyreId);
+
+                dbCartItem.TotalValue = await CalculateTotalValue(model.TyreId, model.Quantity);
+                dbCartItem.Quantity = model.Quantity;
+            }
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task RegisterCustomerCart(int customerId)
+        public async Task RegisterCustomerCart(string customerEmail)
         {
-            throw new NotImplementedException();
+            var customer = await _context.Users
+                .Where(x => x.Email!.Equals(customerEmail))
+                .Include(c => c.CustomerCart)
+                .SingleOrDefaultAsync();
+
+            customer!.CustomerCart = new CustomerCart()
+            {
+                Customer = customer,
+                CustomerId = customer.Id
+            };
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task RemoveCartItem(int cartItemId)
+        public async Task RemoveCartItem(CartItemModel model)
         {
-            throw new NotImplementedException();
+            var customer = await _context
+                .Users.Include(u => u.CustomerCart)
+                .ThenInclude(ct => ct.Items)
+                .FirstOrDefaultAsync(x => x.Id == model.CustomerId);
+
+            if (customer is null)
+            {
+                throw new CustomerNotFoundException(model.CustomerId);
+            }
+
+            var isCartItemExist = customer.CustomerCart.Items.Any(x => x.TyreId == model.TyreId);
+
+            if (isCartItemExist)
+            {
+                customer.CustomerCart.Items.RemoveAll(x => x.TyreId == model.TyreId);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateCustomerCart(UpdateCustomerCart createCartItem)
+        private async Task<decimal> CalculateTotalValue(int tyreId, int quantity)
         {
-            throw new NotImplementedException();
+            var tyre = await _context.Tyres.FindAsync(tyreId);
+
+            return tyre!.Price * quantity;
         }
     }
 }

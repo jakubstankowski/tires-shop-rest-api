@@ -71,9 +71,9 @@ namespace TyresShopAPI.Infrastructure.Persistance
 
             modelBuilder.Entity<Tyre>().HasData(new List<Tyre>()
             {
-                new Tyre() {Id = 1, Model = "P2", Price = 125.50M, ProductionYear = 2020, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0},
-                new Tyre() {Id = 2, Model = "P3", Price = 125.50M, ProductionYear = 2021, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0},
-                new Tyre() {Id = 3, Model = "P4", Price = 125.50M, ProductionYear = 2022, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0},
+                new Tyre() {Id = 1, Model = "P2", Price = 125.50M, ProductionYear = 2020, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
+                new Tyre() {Id = 2, Model = "P3", Price = 125.50M, ProductionYear = 2021, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
+                new Tyre() {Id = 3, Model = "P4", Price = 125.50M, ProductionYear = 2022, SizeDiameter = 225, SizeProfile = 16, SizeWidth = 50, ProducerId = 1, TyresType = 0, IsAvailable = true},
             });
 
             modelBuilder.Entity<Customer>().HasData(new List<Customer>()

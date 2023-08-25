@@ -14,7 +14,7 @@ namespace TyresShopAPI.Application.Services
 
         public async Task AddCartItem(CreateCartItem createCartItem)
         {
-            if (!createCartItem.Items.Any())
+           /* if (!createCartItem.Items.Any())
             {
                 return;
             }
@@ -44,7 +44,7 @@ namespace TyresShopAPI.Application.Services
                     await _context.CartItems.AddAsync(cartDbItem);
                     await _context.SaveChangesAsync();
                 }
-            }
+            }*/
         }
 
         public async Task<bool> IsCartItemExists(int cartId, int tyreId)

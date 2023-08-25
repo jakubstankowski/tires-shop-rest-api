@@ -224,22 +224,6 @@ namespace TyresShopAPI.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Cart.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Carts");
-                });
-
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.Cart.CartItem", b =>
                 {
                     b.Property<int>("Id")
@@ -248,21 +232,89 @@ namespace TyresShopAPI.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CartId")
+                    b.Property<int>("CustomerCartId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalValue")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("TyreId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CartItems");
+                    b.HasIndex("CustomerCartId");
+
+                    b.ToTable("CartItems", (string)null);
                 });
 
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Address", b =>
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Cart.CustomerCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("DeliveryMethodId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerCarts", (string)null);
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddressId = 0,
+                            FirstName = "Jakub",
+                            LastName = "Stankowski"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AddressId = 0,
+                            FirstName = "Jan",
+                            LastName = "Nowicki"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AddressId = 0,
+                            FirstName = "Maryla",
+                            LastName = "Rodowicz"
+                        });
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.CustomerAddress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -290,10 +342,42 @@ namespace TyresShopAPI.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Adresses");
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.ToTable("CustomerAddresses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Gdansk",
+                            CustomerId = 1,
+                            HomeNumber = 3.0,
+                            PostalCode = "00-000",
+                            Street = "Grodzka"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "Warszawa",
+                            CustomerId = 2,
+                            HomeNumber = 3.0,
+                            PostalCode = "00-000",
+                            Street = "Grodzka"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            City = "Radom",
+                            CustomerId = 3,
+                            HomeNumber = 3.0,
+                            PostalCode = "00-000",
+                            Street = "Grodzka"
+                        });
                 });
 
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Customer", b =>
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.DeliveryMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,23 +385,123 @@ namespace TyresShopAPI.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
+                    b.Property<string>("DeliveryTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.ToTable("DeliveryMethods", (string)null);
 
-                    b.ToTable("Customers");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DeliveryTime = "24h",
+                            Name = "Kurier DPD",
+                            Price = 15m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DeliveryTime = "24h",
+                            Name = "Kurier DHL",
+                            Price = 15m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DeliveryTime = "24h",
+                            Name = "Paczkomat",
+                            Price = 10m
+                        });
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BuyerEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentIntentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.OrderDelivery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DeliveryMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveryMethodId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("OrderDeliveries", (string)null);
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TyreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.Producer", b =>
@@ -341,7 +525,7 @@ namespace TyresShopAPI.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Producers");
+                    b.ToTable("Producers", (string)null);
 
                     b.HasData(
                         new
@@ -410,7 +594,7 @@ namespace TyresShopAPI.Infrastructure.Migrations
 
                     b.HasIndex("ProducerId");
 
-                    b.ToTable("Tyres");
+                    b.ToTable("Tyres", (string)null);
 
                     b.HasData(
                         new
@@ -508,15 +692,52 @@ namespace TyresShopAPI.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Customer", b =>
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Cart.CartItem", b =>
                 {
-                    b.HasOne("TyresShopAPI.Domain.Entities.Customers.Address", "Address")
-                        .WithOne("Customer")
-                        .HasForeignKey("TyresShopAPI.Domain.Entities.Customers.Customer", "AddressId")
+                    b.HasOne("TyresShopAPI.Domain.Entities.Cart.CustomerCart", "CustomerCart")
+                        .WithMany("Items")
+                        .HasForeignKey("CustomerCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("CustomerCart");
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.CustomerAddress", b =>
+                {
+                    b.HasOne("TyresShopAPI.Domain.Entities.Customers.Customer", "Customer")
+                        .WithOne("Address")
+                        .HasForeignKey("TyresShopAPI.Domain.Entities.Customers.CustomerAddress", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.OrderDelivery", b =>
+                {
+                    b.HasOne("TyresShopAPI.Domain.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
+                        .WithMany()
+                        .HasForeignKey("DeliveryMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TyresShopAPI.Domain.Entities.OrderAggregate.Order", "Orders")
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DeliveryMethod");
+
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.OrderItem", b =>
+                {
+                    b.HasOne("TyresShopAPI.Domain.Entities.OrderAggregate.Order", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.Tyre", b =>
@@ -530,10 +751,19 @@ namespace TyresShopAPI.Infrastructure.Migrations
                     b.Navigation("Producer");
                 });
 
-            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Address", b =>
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Cart.CustomerCart", b =>
                 {
-                    b.Navigation("Customer")
-                        .IsRequired();
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.Customers.Customer", b =>
+                {
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("TyresShopAPI.Domain.Entities.OrderAggregate.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("TyresShopAPI.Domain.Entities.Producer", b =>

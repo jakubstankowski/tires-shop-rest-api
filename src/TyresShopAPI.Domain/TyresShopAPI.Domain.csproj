@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\Basket\**" />
+    <EmbeddedResource Remove="Models\Basket\**" />
+    <None Remove="Models\Basket\**" />
+  </ItemGroup>
+
 </Project>

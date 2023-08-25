@@ -5,7 +5,7 @@
 namespace TyresShopAPI.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class RemoveOrder : Migration
+    public partial class AddOrderDevliveryNavigationProperty : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Basket\" />
+    <Compile Remove="Models\Basket\**" />
+    <EmbeddedResource Remove="Models\Basket\**" />
+    <None Remove="Models\Basket\**" />
   </ItemGroup>
 
 </Project>

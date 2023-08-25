@@ -8,5 +8,9 @@
 
         public decimal TotalValue { get; set; }
 
+        public CustomerCart CustomerCart { get; set; }
+
+        public int CustomerCart { get; set; }
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TyresShopAPI.Domain.Entities.Customers
 {
-    public class Address : BaseModel
+    public class CustomerAddress : BaseModel
     {
         public string Street { get; set; } = string.Empty;
 
@@ -14,7 +14,6 @@ namespace TyresShopAPI.Domain.Entities.Customers
 
         public Customer Customer { get; set; }
 
-        [ForeignKey(nameof(Customer))]
         public int CustomerId { get; set; }
     }
 }

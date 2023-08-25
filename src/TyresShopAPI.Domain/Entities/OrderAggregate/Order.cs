@@ -2,7 +2,7 @@
 
 namespace TyresShopAPI.Domain.Entities.OrderAggregate
 {
-    public class Order
+    public class Order : BaseModel
     {
         public string BuyerEmail { get; set; } = string.Empty;
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
@@ -10,5 +10,6 @@ namespace TyresShopAPI.Domain.Entities.OrderAggregate
         public decimal Subtotal { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public string PaymentIntentId { get; set; } = string.Empty;
+        public ICollection<OrderDelivery> OrderDeliveries { get; set; } = new List<OrderDelivery>();
     }
 }

@@ -5,5 +5,7 @@
         public string Name { get; set; } = string.Empty;
         public string DeliveryTime { get; set; } = string.Empty;
         public decimal Price { get; set; }
+        public ICollection<OrderDelivery> OrderDeliveries { get; set; } = new List<OrderDelivery>();
+
     }
 }

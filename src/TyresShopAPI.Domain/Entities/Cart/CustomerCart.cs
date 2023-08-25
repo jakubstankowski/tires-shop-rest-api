@@ -4,6 +4,5 @@
     {
         public List<CartItem> Items { get; set; } = new List<CartItem>();
         public int? DeliveryMethodId { get; set; }
-        public decimal ShippingPrice { get; set; }
     }
 }

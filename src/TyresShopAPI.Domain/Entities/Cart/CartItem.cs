@@ -1,4 +1,6 @@
-﻿namespace TyresShopAPI.Domain.Entities.Cart
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TyresShopAPI.Domain.Entities.Cart
 {
     public class CartItem : BaseModel
     {
@@ -10,7 +12,7 @@
 
         public CustomerCart CustomerCart { get; set; }
 
-        public int CustomerCart { get; set; }
+        public int CustomerCartId { get; set; }
 
     }
 }

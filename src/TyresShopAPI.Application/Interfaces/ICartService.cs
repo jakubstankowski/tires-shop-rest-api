@@ -7,7 +7,5 @@ namespace TyresShopAPI.Application.Interfaces
     {
         public Task AddCartItem(CreateCartItem createCartItem);
 
-        public Task<bool> IsCartItemExists(int cartId, int tyreId);
-
     }
 }

@@ -19,7 +19,7 @@ namespace TyresShopAPI.Infrastructure.Persistance
 
         public DbSet<Customer> Customers { get; set; } = null!;
 
-        public DbSet<CustomerAddress> Adresses { get; set; } = null!;
+        public DbSet<CustomerAddress> CustomerAddresses { get; set; } = null!;
 
         public DbSet<Order> Orders { get; set; } = null!;
 
@@ -31,6 +31,8 @@ namespace TyresShopAPI.Infrastructure.Persistance
 
         public DbSet<DeliveryMethod> DeliveryMethods { get; set; } = null!;
 
+        public DbSet<OrderDelivery> OrderDeliveries { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -39,6 +41,26 @@ namespace TyresShopAPI.Infrastructure.Persistance
                  .HasOne<CustomerAddress>(a => a.Address)
                  .WithOne(cs => cs.Customer)
                  .HasForeignKey<CustomerAddress>(ca => ca.CustomerId);
+
+            modelBuilder.Entity<CartItem>()
+            .Property(o => o.TotalValue)
+            .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<DeliveryMethod>()
+            .Property(o => o.Price)
+            .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Order>()
+            .Property(o => o.Subtotal)
+            .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderItem>()
+            .Property(o => o.Price)
+            .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Tyre>()
+            .Property(o => o.Price)
+            .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<Producer>().HasData(new List<Producer>()
             {

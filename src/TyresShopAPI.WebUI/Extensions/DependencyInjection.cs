@@ -12,6 +12,8 @@ namespace TyresShopAPI.Infrastructure
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IProducerService, ProducerService>();
             services.AddScoped<ICustomerCartService, CustomerCartService>();
+            services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             return services;
         }

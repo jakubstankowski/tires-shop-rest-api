@@ -96,6 +96,33 @@ namespace TyresShopAPI.Application.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<CartView>> ReturnAllCustomerCartItems(string customerId)
+        {
+            List<CartView> customerCartItems = new();
+
+            var customerCart = await _context.CustomerCarts.Where(x => x.CustomerId.Equals(customerId)).SingleOrDefaultAsync();
+
+            if (customerCart is null)
+            {
+                throw new Exception();
+            }
+
+            var allCustomerCartItems = await _context.CartItems.Where(x => x.CustomerCartId == customerCart.Id).ToListAsync();
+
+            foreach (var cartItem in allCustomerCartItems)
+            {
+                var cart = new CartView()
+                {
+                    TotalValue = cartItem.TotalValue,
+                    TyreId = cartItem.TyreId
+                };
+
+                customerCartItems.Add(cart);
+            }
+
+            return customerCartItems;
+        }
+
         private async Task<decimal> CalculateTotalValue(int tyreId, int quantity)
         {
             var tyre = await _context.Tyres.FindAsync(tyreId);

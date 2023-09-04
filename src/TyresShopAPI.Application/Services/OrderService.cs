@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TyresShopAPI.Application.Interfaces;
+﻿using TyresShopAPI.Application.Interfaces;
 using TyresShopAPI.Domain.Entities.OrderAggregate;
-using TyresShopAPI.Domain.Enums;
-using TyresShopAPI.Domain.Models.DeliveryMethod;
 using TyresShopAPI.Domain.Models.Orders;
 using TyresShopAPI.Infrastructure.Persistance;
 
@@ -13,18 +10,19 @@ namespace TyresShopAPI.Application.Services
         private readonly TyresService _tyresService;
         private readonly CustomerCartService _customerCartService;
         private readonly DeliveryMethodService _deliveryMethodService;
+        private readonly IdentityService _identityService;
 
-        public OrderService(Context context, TyresService tyresService, CustomerCartService customerCartService, DeliveryMethodService deliveryMethodService) : base(context)
+        public OrderService(Context context, TyresService tyresService, CustomerCartService customerCartService, DeliveryMethodService deliveryMethodService, IdentityService identityService) : base(context)
         {
             _tyresService = tyresService;
             _customerCartService = customerCartService;
             _deliveryMethodService = deliveryMethodService;
+            _identityService = identityService;
         }
 
         public async Task CreateOrder(CreateOrder order)
         {
-            var allCustomerCartItems = await _customerCartService.ReturnAllCustomerCartItems(order.CustomerId);
-
+            await _identityService.IsCustomerExist(order.CustomerId);
 
             var deliveryMethod = await _deliveryMethodService.GetDeliveryMethodById(order.DeliveryMethodId);
 
@@ -32,6 +30,8 @@ namespace TyresShopAPI.Application.Services
             {
                 throw new Exception("Delivery method is not exist");
             }
+
+            var allCustomerCartItems = await _customerCartService.ReturnAllCustomerCartItems(order.CustomerId);
 
             var items = new List<OrderItem>();
             
@@ -56,8 +56,6 @@ namespace TyresShopAPI.Application.Services
                 OrderItems = items,
                 Subtotal = subTotal,
                 CustomerId = order.CustomerId,
-                PaymentIntentId = null,
-                Status = OrderStatus.Pending
             };
 
             _context.Orders.Add(newOrder);

@@ -6,5 +6,6 @@ namespace TyresShopAPI.Application.Interfaces
     {
         public string GenerateToken(IdentityUser user);
 
+        public Task<bool> IsCustomerExist(string customerId);
     }
 }

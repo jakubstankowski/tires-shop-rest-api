@@ -39,6 +39,11 @@ namespace TyresShopAPI.Application.Services
 
             var allCustomerCartItems = await _customerCartService.ReturnAllCustomerCartItems(order.CustomerId);
 
+            if(!allCustomerCartItems.Any())
+            {
+                throw new Exception("Customer cart is empty");
+            }
+
             var items = new List<OrderItem>();
 
             foreach (var item in allCustomerCartItems)

@@ -5,16 +5,19 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TyresShopAPI.Application.Interfaces;
+using TyresShopAPI.Domain.Entities.Customers;
 
 namespace TyresShopAPI.Application.Services
 {
     public class IdentityService : IIdentityService
     {
         private IConfiguration _config;
+        private readonly UserManager<Customer> _userManager;
 
-        public IdentityService( IConfiguration config)
+        public IdentityService(IConfiguration config, UserManager<Customer> userManager)
         {
             _config = config;
+           _userManager = userManager;
         }
 
         public string GenerateToken(IdentityUser user)
@@ -43,6 +46,18 @@ namespace TyresShopAPI.Application.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<bool> IsCustomerExist(string customerId)
+        {
+            var result = await _userManager.FindByIdAsync(customerId);
+
+            if (result  is null)
+            {
+                throw new Exception();
+            }
+
+            return true;
         }
     }
 }

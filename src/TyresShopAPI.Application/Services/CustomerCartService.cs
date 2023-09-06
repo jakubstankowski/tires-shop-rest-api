@@ -96,6 +96,53 @@ namespace TyresShopAPI.Application.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task RemoveCartItemByIds(List<int> cartItemsIds)
+        {
+            foreach (var cartItemId in cartItemsIds)
+            {
+                var cartItem = await _context
+               .CartItems.Where(x => x.Id == cartItemId).SingleOrDefaultAsync();
+
+                if (cartItem is null)
+                {
+                    throw new Exception();
+                }
+
+                _context.CartItems.Remove(cartItem);
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<CartView>> ReturnAllCustomerCartItems(string customerId)
+        {
+            List<CartView> customerCartItems = new();
+
+            var customerCart = await _context.CustomerCarts.Where(x => x.CustomerId.Equals(customerId)).SingleOrDefaultAsync();
+
+            if (customerCart is null)
+            {
+                throw new Exception();
+            }
+
+            var allCustomerCartItems = await _context.CartItems.Where(x => x.CustomerCartId == customerCart.Id).ToListAsync();
+
+            foreach (var cartItem in allCustomerCartItems)
+            {
+                var cart = new CartView()
+                {
+                    Id = cartItem.Id,
+                    TotalValue = cartItem.TotalValue,
+                    TyreId = cartItem.TyreId,
+                    Quantity = cartItem.Quantity
+                };
+
+                customerCartItems.Add(cart);
+            }
+
+            return customerCartItems;
+        }
+
         private async Task<decimal> CalculateTotalValue(int tyreId, int quantity)
         {
             var tyre = await _context.Tyres.FindAsync(tyreId);

@@ -10,5 +10,9 @@ namespace TyresShopAPI.Application.Interfaces
 
         public Task RegisterCustomerCart(string customerEmail);
 
+        public Task<List<CartView>> ReturnAllCustomerCartItems(string customerId);
+
+        public Task RemoveCartItemByIds(List<int> cartItemsIds);
+
     }
 }

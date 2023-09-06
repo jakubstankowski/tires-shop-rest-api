@@ -1,6 +1,8 @@
-﻿namespace TyresShopAPI.Domain.Models.Cart
+﻿using TyresShopAPI.Domain.Entities;
+
+namespace TyresShopAPI.Domain.Models.Cart
 {
-    public class CartView
+    public class CartView : BaseModel
     {
         public int TyreId { get; set; }
 

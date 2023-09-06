@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TyresShopAPI.Application.Interfaces;
 using TyresShopAPI.Application.Services;
 using TyresShopAPI.Domain.Models.Cart;
 using TyresShopAPI.Domain.Models.Orders;
@@ -11,9 +12,9 @@ namespace TyresShopAPI.WebUI.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private OrderService _orderService;
+        private IOrderService _orderService;
 
-        public OrdersController(OrderService orderService)
+        public OrdersController(IOrderService orderService)
         {
             _orderService = orderService;
         }

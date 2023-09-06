@@ -96,6 +96,24 @@ namespace TyresShopAPI.Application.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task RemoveCartItemByIds(List<int> cartItemsIds)
+        {
+            foreach (var cartItemId in cartItemsIds)
+            {
+                var cartItem = await _context
+               .CartItems.Where(x => x.Id == cartItemId).SingleOrDefaultAsync();
+
+                if (cartItem is null)
+                {
+                    throw new Exception();
+                }
+
+                _context.CartItems.Remove(cartItem);
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task<List<CartView>> ReturnAllCustomerCartItems(string customerId)
         {
             List<CartView> customerCartItems = new();
@@ -113,8 +131,10 @@ namespace TyresShopAPI.Application.Services
             {
                 var cart = new CartView()
                 {
+                    Id = cartItem.Id,
                     TotalValue = cartItem.TotalValue,
-                    TyreId = cartItem.TyreId
+                    TyreId = cartItem.TyreId,
+                    Quantity = cartItem.Quantity
                 };
 
                 customerCartItems.Add(cart);

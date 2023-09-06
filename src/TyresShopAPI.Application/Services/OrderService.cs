@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using TyresShopAPI.Application.Interfaces;
 using TyresShopAPI.Domain.Entities.OrderAggregate;
+using TyresShopAPI.Domain.Models.Cart;
 using TyresShopAPI.Domain.Models.Orders;
 using TyresShopAPI.Infrastructure.Persistance;
 
@@ -25,6 +26,8 @@ namespace TyresShopAPI.Application.Services
 
         public async Task CreateOrder(CreateOrder order)
         {
+            List<int> cartItemsIds = new();
+
             await _identityService.IsCustomerExist(order.CustomerId);
 
             var deliveryMethod = await _deliveryMethodService.GetDeliveryMethodById(order.DeliveryMethodId);
@@ -50,9 +53,10 @@ namespace TyresShopAPI.Application.Services
                 };
 
                 items.Add(orderItem);
+                cartItemsIds.Add(item.Id);
             }
 
-            var subTotal = allCustomerCartItems.Sum(x => x.TotalValue) + deliveryMethod.Price;
+            var subTotal = CalculateSubTotal(allCustomerCartItems, deliveryMethod.Price);
 
             var newOrder = new Order()
             {
@@ -66,6 +70,13 @@ namespace TyresShopAPI.Application.Services
             _logger.LogInformation("Success add order");
 
             await _context.SaveChangesAsync();
+
+            await _customerCartService.RemoveCartItemByIds(cartItemsIds);
+        }
+
+        private static decimal CalculateSubTotal(List<CartView> cartItems, decimal deliveryPrice)
+        {
+            return cartItems.Sum(x => x.TotalValue) + deliveryPrice;
         }
 
     }

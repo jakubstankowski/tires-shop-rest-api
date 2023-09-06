@@ -1,4 +1,5 @@
-﻿using TyresShopAPI.Application.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+using TyresShopAPI.Application.Interfaces;
 using TyresShopAPI.Domain.Entities.OrderAggregate;
 using TyresShopAPI.Domain.Models.Orders;
 using TyresShopAPI.Infrastructure.Persistance;
@@ -7,13 +8,15 @@ namespace TyresShopAPI.Application.Services
 {
     public class OrderService : BaseService, IOrderService
     {
-        private readonly TyresService _tyresService;
-        private readonly CustomerCartService _customerCartService;
-        private readonly DeliveryMethodService _deliveryMethodService;
-        private readonly IdentityService _identityService;
+        private readonly ITyresService _tyresService;
+        private readonly ICustomerCartService _customerCartService;
+        private readonly IDeliveryMethodService _deliveryMethodService;
+        private readonly IIdentityService _identityService;
+        private ILogger<OrderService> _logger;
 
-        public OrderService(Context context, TyresService tyresService, CustomerCartService customerCartService, DeliveryMethodService deliveryMethodService, IdentityService identityService) : base(context)
+        public OrderService(Context context, ILogger<OrderService> logger, ITyresService tyresService, ICustomerCartService customerCartService, IDeliveryMethodService deliveryMethodService, IIdentityService identityService) : base(context)
         {
+            _logger = logger;
             _tyresService = tyresService;
             _customerCartService = customerCartService;
             _deliveryMethodService = deliveryMethodService;
@@ -34,11 +37,11 @@ namespace TyresShopAPI.Application.Services
             var allCustomerCartItems = await _customerCartService.ReturnAllCustomerCartItems(order.CustomerId);
 
             var items = new List<OrderItem>();
-            
+
             foreach (var item in allCustomerCartItems)
             {
                 var tyreItem = await _tyresService.GetTyreBydId(item.TyreId);
-                                
+
                 var orderItem = new OrderItem()
                 {
                     TyreId = item.TyreId,
@@ -60,8 +63,10 @@ namespace TyresShopAPI.Application.Services
 
             _context.Orders.Add(newOrder);
 
+            _logger.LogInformation("Success add order");
+
             await _context.SaveChangesAsync();
         }
-        
+
     }
 }

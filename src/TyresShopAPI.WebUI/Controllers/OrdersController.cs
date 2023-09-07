@@ -34,5 +34,14 @@ namespace TyresShopAPI.WebUI.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("GetOrderByCustomerId/{customerId}")]
+        public async Task<IActionResult> GetOrderByCustomerId(string customerId)
+        {
+            var result = await _orderService.GetOrdersByCustomerId(customerId);
+
+            return Ok(result);
+        }
     }
 }

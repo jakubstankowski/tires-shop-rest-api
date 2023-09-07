@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TyresShopAPI.Application.Interfaces;
 using TyresShopAPI.Domain.Entities.OrderAggregate;
 using TyresShopAPI.Domain.Models.Cart;
@@ -39,7 +40,7 @@ namespace TyresShopAPI.Application.Services
 
             var allCustomerCartItems = await _customerCartService.ReturnAllCustomerCartItems(order.CustomerId);
 
-            if(!allCustomerCartItems.Any())
+            if (!allCustomerCartItems.Any())
             {
                 throw new Exception("Customer cart is empty");
             }
@@ -84,5 +85,53 @@ namespace TyresShopAPI.Application.Services
             return cartItems.Sum(x => x.TotalValue) + deliveryPrice;
         }
 
+        public async Task<List<OrderView>> GetOrdersByCustomerId(string customerId)
+        {
+            await _identityService.IsCustomerExist(customerId);
+
+            List<OrderView> orderItems = new();
+
+            var orders = await _context.Orders
+                .Where(x => x.CustomerId == customerId)
+                .Include(x => x.OrderItems)
+                .ToListAsync();
+
+            foreach (var order in orders)
+            {
+                var orderView = new OrderView()
+                {
+                    Items = await MapOrderItems(order.OrderItems),
+                    OrderDate = order.OrderDate,
+                    Status = order.Status.ToString(),
+                    Subtotal = order.Subtotal
+                };
+
+                orderItems.Add(orderView);
+            }
+
+            return orderItems;
+        }
+
+        private async Task<List<OrderItemView>> MapOrderItems(IReadOnlyList<OrderItem> orderItems)
+        {
+            List<OrderItemView> orders = new();
+
+            foreach (var item in orderItems)
+            {
+                var tyre = await _tyresService.GetTyreBydId(item.TyreId);
+
+                var orderItem = new OrderItemView()
+                {
+                    Producer = tyre.ProducerName,
+                    Model = tyre.Model,
+                    Price = item.Price,
+                    Quantity = item.Quantity
+                };
+
+                orders.Add(orderItem);
+            }
+
+            return orders;
+        }
     }
 }

@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CE33F111-10E0-42C8-B752-D060BDC4010B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{44A022FA-C91D-45B6-840F-E4503E29A0A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.WebUI", "src\TyresShopAPI.WebUI\TyresShopAPI.WebUI.csproj", "{DAD47F8E-EE2F-4FD0-B1EE-99891C97920E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.Infrastructure", "src\TyresShopAPI.Infrastructure\TyresShopAPI.Infrastructure.csproj", "{049F5603-69FC-480C-A06E-E94CEF2EB9B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.Domain", "src\TyresShopAPI.Domain\TyresShopAPI.Domain.csproj", "{788C63D3-35E4-4A9E-BA69-1B0A0E2BA3E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.Application", "src\TyresShopAPI.Application\TyresShopAPI.Application.csproj", "{533813F9-FB59-4E2C-9F64-2C9FDBF4B000}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyresShopAPI.Tests.Unit", "tests\TyresShopAPI.Tests.Unit\TyresShopAPI.Tests.Unit.csproj", "{E84729DB-BF3F-4B6D-A45F-8FA14871EFF5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAD47F8E-EE2F-4FD0-B1EE-99891C97920E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD47F8E-EE2F-4FD0-B1EE-99891C97920E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD47F8E-EE2F-4FD0-B1EE-99891C97920E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD47F8E-EE2F-4FD0-B1EE-99891C97920E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{049F5603-69FC-480C-A06E-E94CEF2EB9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{049F5603-69FC-480C-A06E-E94CEF2EB9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{049F5603-69FC-480C-A06E-E94CEF2EB9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{049F5603-69FC-480C-A06E-E94CEF2EB9B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{788C63D3-35E4-4A9E-BA69-1B0A0E2BA3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{788C63D3-35E4-4A9E-BA69-1B0A0E2BA3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{788C63D3-35E4-4A9E-BA69-1B0A0E2BA3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{788C63D3-35E4-4A9E-BA69-1B0A0E2BA3E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{533813F9-FB59-4E2C-9F64-2C9FDBF4B000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{533813F9-FB59-4E2C-9F64-2C9FDBF4B000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{533813F9-FB59-4E2C-9F64-2C9FDBF4B000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{533813F9-FB59-4E2C-9F64-2C9FDBF4B000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E84729DB-BF3F-4B6D-A45F-8FA14871EFF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E84729DB-BF3F-4B6D-A45F-8FA14871EFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E84729DB-BF3F-4B6D-A45F-8FA14871EFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E84729DB-BF3F-4B6D-A45F-8FA14871EFF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DAD47F8E-EE2F-4FD0-B1EE-99891C97920E} = {CE33F111-10E0-42C8-B752-D060BDC4010B}
+		{049F5603-69FC-480C-A06E-E94CEF2EB9B5} = {CE33F111-10E0-42C8-B752-D060BDC4010B}
+		{788C63D3-35E4-4A9E-BA69-1B0A0E2BA3E0} = {CE33F111-10E0-42C8-B752-D060BDC4010B}
+		{533813F9-FB59-4E2C-9F64-2C9FDBF4B000} = {CE33F111-10E0-42C8-B752-D060BDC4010B}
+		{E84729DB-BF3F-4B6D-A45F-8FA14871EFF5} = {44A022FA-C91D-45B6-840F-E4503E29A0A1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {028087A6-0968-41E6-858E-CEAAE5E9002A}
+	EndGlobalSection
+EndGlobal

@@ -14,7 +14,7 @@ namespace TyresShopAPI.Application.Services
         private readonly ICustomerCartService _customerCartService;
         private readonly IDeliveryMethodService _deliveryMethodService;
         private readonly IIdentityService _identityService;
-        private ILogger<OrderService> _logger;
+        private readonly ILogger<OrderService> _logger;
 
         public OrderService(Context context, ILogger<OrderService> logger, ITyresService tyresService, ICustomerCartService customerCartService, IDeliveryMethodService deliveryMethodService, IIdentityService identityService) : base(context)
         {
@@ -23,6 +23,10 @@ namespace TyresShopAPI.Application.Services
             _customerCartService = customerCartService;
             _deliveryMethodService = deliveryMethodService;
             _identityService = identityService;
+        }
+
+        public OrderService() : base(null)
+        {
         }
 
         public async Task CreateOrder(CreateOrder order)
@@ -80,7 +84,7 @@ namespace TyresShopAPI.Application.Services
             await _customerCartService.RemoveCartItemByIds(cartItemsIds);
         }
 
-        private static decimal CalculateSubTotal(List<CartView> cartItems, decimal deliveryPrice)
+        public decimal CalculateSubTotal(List<CartView> cartItems, decimal deliveryPrice)
         {
             return cartItems.Sum(x => x.TotalValue) + deliveryPrice;
         }

@@ -20,6 +20,7 @@ namespace TyresShopAPI.Tests.Unit
             _orderService = new OrderService();
         }
 
+
         [Fact]
         public void Calculate_SubTotal_With_Empty_Cart_Should_Return_Only_Delivery_Price()
         {
@@ -71,5 +72,6 @@ namespace TyresShopAPI.Tests.Unit
             // Assert
             Assert.Equal(100.0m, result); // The result should be the sum of cart items plus delivery price
         }
+
     }
 }

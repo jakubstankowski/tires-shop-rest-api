@@ -4,11 +4,11 @@ namespace TyresShopAPI.Application.Services
 {
     public class BaseService
     {
-        protected Context _context;
+        protected Context? _context;
 
-        public BaseService(Context context)
+        public BaseService(Context? context)
         {
-            _context = context;
+            _context = context ?? null;
         }
     }
 }
